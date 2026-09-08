@@ -1,12 +1,11 @@
 let nextId = 4;
 
-// Временное хранилище записей до подключения базы данных.
 const entries = [
   {
     id: 1,
     title: 'Прогулка в парке',
     content: 'Сегодня долго гулял в парке и читал книгу на скамейке.',
-    date: '2026-09-01T10:00:00.000Z',
+    date: new Date('2026-09-01T10:00:00.000Z'),
     mood: 'happy',
     photos: ['/photos/park.jpg'],
     isPrivate: true
@@ -15,7 +14,7 @@ const entries = [
     id: 2,
     title: 'Новый учебный проект',
     content: 'Начал разрабатывать REST API для личного дневника.',
-    date: '2026-09-02T14:30:00.000Z',
+    date: new Date('2026-09-02T14:30:00.000Z'),
     mood: 'focused',
     photos: [],
     isPrivate: false
@@ -24,7 +23,7 @@ const entries = [
     id: 3,
     title: 'Тихий вечер',
     content: 'Вечером слушал музыку и планировал задачи на завтра.',
-    date: '2026-09-03T19:15:00.000Z',
+    date: new Date('2026-09-03T19:15:00.000Z'),
     mood: 'neutral',
     photos: [],
     isPrivate: true

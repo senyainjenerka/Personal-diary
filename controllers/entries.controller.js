@@ -18,7 +18,7 @@ function validateEntryData(data) {
     return 'Field "content" is required and must be a non-empty string';
   }
 
-  if (data.date !== undefined && (typeof data.date !== 'string' || Number.isNaN(Date.parse(data.date)))) {
+  if (data.date !== undefined && (typeof data.date !== 'string' || Number.isNaN(new Date(data.date).getTime()))) {
     return 'Field "date" must be a valid ISO date string';
   }
 
@@ -41,7 +41,7 @@ function normalizeEntryData(data) {
   return {
     title: data.title.trim(),
     content: data.content.trim(),
-    date: data.date || new Date().toISOString(),
+    date: data.date ? new Date(data.date) : new Date(),
     ...(data.mood !== undefined && { mood: data.mood }),
     photos: data.photos || [],
     isPrivate: data.isPrivate !== undefined ? data.isPrivate : true
@@ -109,7 +109,6 @@ function removeEntry(req, res) {
   }
 
   entriesModel.deleteEntry(id);
-  // Возвращаем 200, чтобы сообщить клиенту результат удаления в JSON.
   return res.status(200).json({ message: 'Entry deleted successfully' });
 }
 

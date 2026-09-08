@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 app.use('/entries', entriesRouter);
 
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: 'Route not found' }); 
 });
 
 app.use((err, req, res, next) => {
