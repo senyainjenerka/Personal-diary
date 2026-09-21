@@ -10,10 +10,11 @@ const sequelize = new Sequelize(process.env[config.use_env_variable], {
 const Entry = require('./entry.model')(sequelize);
 const Photo = require('./photo.model')(sequelize);
 const Tag = require('./tag.model')(sequelize);
+const EntryTag = require('./entry-tag.model')(sequelize);
 
 Entry.hasMany(Photo, { foreignKey: 'entryId', as: 'photos', onDelete: 'CASCADE' });
 Photo.belongsTo(Entry, { foreignKey: 'entryId' });
-Entry.belongsToMany(Tag, { through: 'EntryTag', as: 'tags', foreignKey: 'entryId' });
-Tag.belongsToMany(Entry, { through: 'EntryTag', as: 'entries', foreignKey: 'tagId' });
+Entry.belongsToMany(Tag, { through: EntryTag, as: 'tags', foreignKey: 'entryId' });
+Tag.belongsToMany(Entry, { through: EntryTag, as: 'entries', foreignKey: 'tagId' });
 
-module.exports = { sequelize, Entry, Photo, Tag };
+module.exports = { sequelize, Entry, Photo, Tag, EntryTag };
