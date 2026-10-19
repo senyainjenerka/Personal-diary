@@ -7,5 +7,6 @@ module.exports = (sequelize) => sequelize.define('Entry', {
   date: { type: DataTypes.DATEONLY, allowNull: false, defaultValue: DataTypes.NOW },
   mood: { type: DataTypes.STRING, allowNull: true },
   isPrivate: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+  userId: { type: DataTypes.INTEGER, allowNull: true },
   location: { type: DataTypes.STRING, allowNull: true }
 }, { tableName: 'Entries' });

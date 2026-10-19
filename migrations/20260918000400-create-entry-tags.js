@@ -17,6 +17,9 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       }
+    }, {
+      timestamps: false,
+      freezeTableName: true
     });
   },
   async down(queryInterface) {

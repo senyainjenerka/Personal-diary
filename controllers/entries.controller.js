@@ -51,6 +51,7 @@ function normalizeEntryData(data) {
   if (entryData.content !== undefined) entryData.content = entryData.content.trim();
   delete entryData.photos;
   delete entryData.tags;
+  delete entryData.userId;
   return entryData;
 }
 
@@ -63,10 +64,10 @@ async function getAllEntries(req, res, next) {
       return res.status(400).json({ error: 'Query parameter "isPrivate" must be true or false' });
     }
 
-    return Entry.findAll({ where: { isPrivate: isPrivate === 'true' }, include }).then((entries) => res.json(entries)).catch(next);
+    return Entry.findAll({ where: { userId: req.user.id, isPrivate: isPrivate === 'true' }, include }).then((entries) => res.json(entries)).catch(next);
   }
 
-  return Entry.findAll({ include }).then((entries) => res.json(entries)).catch(next);
+  return Entry.findAll({ where: { userId: req.user.id }, include }).then((entries) => res.json(entries)).catch(next);
 }
 
 async function getEntryById(req, res, next) {
@@ -81,6 +82,9 @@ async function getEntryById(req, res, next) {
   if (!entry) {
     return res.status(404).json({ error: 'Entry not found' });
   }
+  if (entry.userId !== req.user.id) {
+    return res.status(404).json({ error: 'Entry not found' });
+  }
 
   return res.json(entry);
 }
@@ -93,7 +97,7 @@ async function createEntry(req, res, next) {
   }
 
   try {
-    const entry = await Entry.create(normalizeEntryData(req.body));
+    const entry = await Entry.create({ ...normalizeEntryData(req.body), userId: req.user.id });
     await updateRelations(entry, req.body);
     return res.status(201).json(await Entry.findByPk(entry.id, { include }));
   } catch (error) { return next(error); }
@@ -108,10 +112,11 @@ async function replaceEntry(req, res, next) {
   }
 
   try {
-    if (id === null || !(await Entry.findByPk(id))) {
+    const existingEntry = id === null ? null : await Entry.findByPk(id);
+    if (!existingEntry || existingEntry.userId !== req.user.id) {
       return res.status(404).json({ error: 'Entry not found' });
     }
-    await Entry.update(normalizeEntryData(req.body), { where: { id } });
+    await Entry.update(normalizeEntryData(req.body), { where: { id, userId: req.user.id } });
     const entry = await Entry.findByPk(id);
     await updateRelations(entry, req.body);
     return res.json(await Entry.findByPk(id, { include }));
@@ -122,10 +127,11 @@ async function removeEntry(req, res, next) {
   const id = parseId(req.params.id);
 
   try {
-    if (id === null || !(await Entry.findByPk(id))) {
+    const entry = id === null ? null : await Entry.findByPk(id);
+    if (!entry || entry.userId !== req.user.id) {
       return res.status(404).json({ error: 'Entry not found' });
     }
-    await Entry.destroy({ where: { id } });
+    await Entry.destroy({ where: { id, userId: req.user.id } });
     return res.status(200).json({ message: 'Entry deleted successfully' });
   } catch (error) { return next(error); }
 }
