@@ -1,0 +1,48 @@
+const initialEntries = [
+  {
+    id: 1,
+    title: 'Прогулка в парке',
+    content: 'Сегодня долго гулял в парке и читал книгу на скамейке.',
+    date: '2026-09-01',
+    mood: 'happy',
+    location: 'Городской парк',
+    isPrivate: true,
+    tags: ['личное', 'отдых'],
+    photos: [],
+  },
+  {
+    id: 2,
+    title: 'Новый учебный проект',
+    content: 'Начал разрабатывать REST API для личного дневника.',
+    date: '2026-09-02',
+    mood: 'focused',
+    location: 'Дом',
+    isPrivate: false,
+    tags: ['работа', 'учёба'],
+    photos: [],
+  },
+  {
+    id: 3,
+    title: 'Тихий вечер',
+    content: 'Вечером слушал музыку и планировал задачи на завтра.',
+    date: '2026-09-03',
+    mood: 'neutral',
+    location: 'Дом',
+    isPrivate: true,
+    tags: ['личное'],
+    photos: [],
+  },
+  {
+    id: 4,
+    title: 'Планы на поездку',
+    content: 'Составил маршрут и список мест, которые хочу посетить.',
+    date: '2026-09-04',
+    mood: 'excited',
+    location: 'Кафе',
+    isPrivate: false,
+    tags: ['путешествия'],
+    photos: [],
+  },
+]
+
+export default initialEntries
