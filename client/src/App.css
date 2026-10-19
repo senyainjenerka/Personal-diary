@@ -111,7 +111,7 @@ h3 {
 
 h1 {
   margin: 0;
-  font-family: 'Caveat', cursive;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
   font-size: 58px;
   font-weight: 700;
   line-height: 1.05;
@@ -133,10 +133,11 @@ h1 {
 }
 
 .header-deco-leaf {
+  width: 180px;
+  height: auto;
   right: 26px;
-  bottom: -14px;
-  font-size: 92px;
-  opacity: 0.16;
+  bottom: -8px;
+  opacity: 0.9;
   transform: rotate(-14deg);
 }
 
@@ -215,7 +216,7 @@ h3 {
 .form-section h2,
 .stats-section h2 {
   margin-bottom: 0;
-  font-family: 'Caveat', cursive;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
   font-size: 30px;
   font-weight: 700;
   line-height: 1.1;
@@ -498,7 +499,7 @@ h3 {
 
 .list-heading h2 {
   margin: 0;
-  font-family: 'Caveat', cursive;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
   font-size: 34px;
   font-weight: 700;
   line-height: 1.1;
@@ -598,7 +599,7 @@ h3 {
 
 .entry-heading h3 {
   overflow-wrap: anywhere;
-  font-family: 'Caveat', cursive;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
   font-size: 27px;
   font-weight: 700;
   line-height: 1.15;
@@ -735,7 +736,7 @@ h3 {
   background: rgba(231, 241, 232, 0.55);
   color: var(--green-deep);
   text-align: center;
-  font-family: 'Caveat', cursive;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
   font-size: 26px;
 }
 
@@ -752,7 +753,7 @@ h3 {
   display: block;
   margin-bottom: 4px;
   color: var(--rose-deep);
-  font-family: 'Caveat', cursive;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 1.35;

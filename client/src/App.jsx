@@ -5,8 +5,7 @@ function App() {
   return (
     <main className="app-shell">
       <header className="app-header">
-        <div className="header-deco header-deco-leaf" aria-hidden="true">🌿</div>
-        <div className="header-deco header-deco-bloom" aria-hidden="true">✿</div>
+       <img className="header-deco header-deco-leaf" src="/src/assets/flover.png" alt="" />
         <div className="header-title">
           <p className="header-kicker">личный дневник</p>
           <h1>Мой дневник</h1>

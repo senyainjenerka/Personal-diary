@@ -15,14 +15,13 @@ function EntryManager() {
   const [isLoading, setIsLoading] = useState(true)
   const editingEntry = entries.find((entry) => entry.id === editingId) ?? null
 
-  // Данные уже прочитаны из localStorage; задержка нужна только для имитации сервера в лабораторной.
+  
   useEffect(() => {
     const timeoutId = window.setTimeout(() => setIsLoading(false), 1000)
     return () => window.clearTimeout(timeoutId)
   }, [])
 
   useEffect(() => {
-    // Сохраняем заголовок, чтобы вернуть его при смене количества записей и размонтировании.
     const previousTitle = document.title
     document.title = `Мой дневник (${entries.length})`
     return () => {
