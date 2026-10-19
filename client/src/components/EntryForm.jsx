@@ -108,7 +108,7 @@ function EntryForm({ entry, onSave, onCancel }) {
     const title = form.title.trim()
     const content = form.content.trim()
     if (!title || !content) {
-      setError('Заполните заголовок и текст записи.')
+      setError('Без заголовка и текста запись не получится.')
       return
     }
 
@@ -153,14 +153,14 @@ function EntryForm({ entry, onSave, onCancel }) {
 
   return (
     <form className="entry-form" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
-      <div className="field">
+      <div className="field field-wide">
         <label htmlFor="entry-title">Заголовок *</label>
         <input
           id="entry-title"
           name="title"
           value={form.title}
           onChange={updateField}
-          placeholder="Например, прогулка у реки"
+          placeholder="Как назовём этот день?"
           autoComplete="off"
         />
       </div>
@@ -175,7 +175,7 @@ function EntryForm({ entry, onSave, onCancel }) {
           name="content"
           value={form.content}
           onChange={updateField}
-          placeholder="Что хочется запомнить?"
+          placeholder="Что сегодня было…"
           rows="5"
         />
       </div>
@@ -233,12 +233,12 @@ function EntryForm({ entry, onSave, onCancel }) {
       {showDraftStatus && (
         <p className="draft-status" aria-live="polite">
           <span className={`draft-indicator${isDraftPending ? ' pending' : ''}`} />
-          {isDraftPending ? 'Сохранение черновика...' : 'Черновик сохранён'}
+          {isDraftPending ? 'Черновик пишется…' : 'Черновик сохранён'}
         </p>
       )}
       <div className="form-actions">
         <button className="button button-primary" type="submit">
-          {entry ? 'Сохранить' : 'Добавить запись'}
+          {entry ? 'Сохранить' : 'Записать'}
         </button>
         {entry && (
           <button className="button button-secondary" type="button" onClick={onCancel}>

@@ -1,66 +1,89 @@
 import { memo } from 'react'
 
 const moodLabels = {
-  happy: 'Радостное',
-  calm: 'Спокойное',
-  neutral: 'Нейтральное',
-  focused: 'Сосредоточенное',
-  excited: 'Воодушевлённое',
-  tired: 'Усталое',
-  sad: 'Грустное',
+  happy: 'радостно',
+  calm: 'спокойно',
+  neutral: 'нейтрально',
+  focused: 'сосредоточенно',
+  excited: 'воодушевлённо',
+  tired: 'устало',
+  sad: 'грустно',
 }
 
 function formatDate(date) {
-  return new Intl.DateTimeFormat('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(`${date}T00:00:00`))
+  const value = new Date(`${date}T00:00:00`)
+  return {
+    weekday: new Intl.DateTimeFormat('ru-RU', { weekday: 'long' }).format(value),
+    date: new Intl.DateTimeFormat('ru-RU', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }).format(value),
+  }
 }
 
-function EntryItem({ entry, onEdit, onDelete }) {
+function highlightText(text, query) {
+  const searchTerm = query.trim()
+  if (!searchTerm) return text
+
+  const escapedQuery = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const parts = text.split(new RegExp(`(${escapedQuery})`, 'giu'))
+  return parts.map((part, index) =>
+    part.toLocaleLowerCase('ru-RU') === searchTerm.toLocaleLowerCase('ru-RU')
+      ? <mark key={`${index}-${part}`}>{part}</mark>
+      : part,
+  )
+}
+
+function EntryItem({ entry, search, onEdit, onDelete }) {
+  const formattedDate = formatDate(entry.date)
+
   return (
-    <article className="entry-card">
-      <div className="entry-topline">
-        <div className="entry-title-group">
-          <p className="entry-date">{formatDate(entry.date)}</p>
-          <h3>{entry.title}</h3>
-          <div className="badge-row">
-            <span className="badge badge-privacy">
-              {entry.isPrivate ? 'Приватная' : 'Публичная'}
-            </span>
-            {entry.mood && <span className="badge badge-mood">{moodLabels[entry.mood] ?? entry.mood}</span>}
-          </div>
-        </div>
+    <article className={`entry-sheet${entry.isPrivate ? ' entry-private' : ''}`}>
+      <div className="entry-date-column">
+        <time className="entry-date" dateTime={entry.date}>
+          <span>{formattedDate.weekday}</span>
+          <span>{formattedDate.date}</span>
+        </time>
       </div>
-      {entry.location && <p className="entry-location">⌖ {entry.location}</p>}
-      <p className="entry-content">{entry.content}</p>
-      {entry.tags.length > 0 && (
-        <div className="tag-list" aria-label="Теги">
-          {entry.tags.map((tag, index) => <span className="tag-chip" key={`${tag}-${index}`}>#{tag}</span>)}
+      <div className="entry-body">
+        <div className="entry-heading">
+          <h3>{highlightText(entry.title, search)}</h3>
+          {entry.isPrivate && <span className="private-stamp">ЛИЧНОЕ</span>}
         </div>
-      )}
-      {entry.photos.length > 0 && (
-        <div className="photo-list" aria-label="Фотографии записи">
-          {entry.photos.map((photo, index) => (
-            <img
-              key={`${photo}-${index}`}
-              src={photo}
-              alt={`Фото ${index + 1} к записи «${entry.title}»`}
-              onError={(event) => {
-                event.currentTarget.hidden = true
-              }}
-            />
-          ))}
+        <div className="entry-stamps">
+          {entry.mood && <span className="mood-stamp">{moodLabels[entry.mood] ?? entry.mood}</span>}
+          {entry.location && <span className="entry-location">{entry.location}</span>}
         </div>
-      )}
-      <div className="entry-actions">
-        <button className="button button-secondary" type="button" onClick={() => onEdit(entry.id)}>
-          Редактировать
-        </button>
-        <button className="button button-danger" type="button" onClick={() => onDelete(entry.id)}>
-          Удалить
-        </button>
+        <p className="entry-content">{highlightText(entry.content, search)}</p>
+        {entry.tags.length > 0 && (
+          <p className="tag-list" aria-label="Теги">
+            {entry.tags.map((tag, index) => <span className="tag-text" key={`${tag}-${index}`}>#{tag}</span>)}
+          </p>
+        )}
+        {entry.photos.length > 0 && (
+          <div className="photo-list" aria-label="Фотографии записи">
+            {entry.photos.map((photo, index) => (
+              <img
+                className={`entry-photo entry-photo-${index % 2}`}
+                key={`${photo}-${index}`}
+                src={photo}
+                alt={`Фото ${index + 1} к записи «${entry.title}»`}
+                onError={(event) => {
+                  event.currentTarget.hidden = true
+                }}
+              />
+            ))}
+          </div>
+        )}
+        <div className="entry-actions">
+          <button className="text-button" type="button" onClick={() => onEdit(entry.id)}>
+            Править
+          </button>
+          <button className="text-button delete-button" type="button" onClick={() => onDelete(entry.id)}>
+            Удалить
+          </button>
+        </div>
       </div>
     </article>
   )
