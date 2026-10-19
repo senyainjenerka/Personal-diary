@@ -197,7 +197,7 @@ function EntryForm({ entry, onSave, onCancel }) {
           autoComplete="off"
         />
       </div>
-      <div className="field">
+      <div className="field field-wide">
         <label htmlFor="entry-tags">Теги через запятую</label>
         <input
           id="entry-tags"
@@ -208,7 +208,7 @@ function EntryForm({ entry, onSave, onCancel }) {
           autoComplete="off"
         />
       </div>
-      <div className="field">
+      <div className="field field-wide">
         <label htmlFor="entry-photos">Фото URL через запятую</label>
         <input
           id="entry-photos"

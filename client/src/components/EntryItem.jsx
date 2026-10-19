@@ -10,6 +10,16 @@ const moodLabels = {
   sad: 'грустно',
 }
 
+const moodColors = {
+  happy: '#f2b44e',
+  calm: '#8fc2a1',
+  neutral: '#cfd6cd',
+  focused: '#5f9ea5',
+  excited: '#ef8aa6',
+  tired: '#b3a3c9',
+  sad: '#7d94ad',
+}
+
 function formatDate(date) {
   const value = new Date(`${date}T00:00:00`)
   return {
@@ -45,6 +55,14 @@ function EntryItem({ entry, search, onEdit, onDelete }) {
           <span>{formattedDate.weekday}</span>
           <span>{formattedDate.date}</span>
         </time>
+        {entry.mood && (
+          <span
+            className="mood-dot"
+            title={moodLabels[entry.mood] ?? entry.mood}
+            style={{ background: moodColors[entry.mood] ?? '#cfd6cd' }}
+            aria-hidden="true"
+          />
+        )}
       </div>
       <div className="entry-body">
         <div className="entry-heading">
