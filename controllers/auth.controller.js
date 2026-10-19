@@ -37,7 +37,7 @@ async function login(req, res, next) {
       return res.status(401).json({ error: invalidCredentials });
     }
 
-    // Заблокированный аккаунт не проверяет пароль до окончания срока блокировки.
+    
     if (user.lockUntil && user.lockUntil.getTime() > Date.now()) {
       return res.status(423).json({
         error: `Account is locked. Try again after ${user.lockUntil.toISOString()}`
