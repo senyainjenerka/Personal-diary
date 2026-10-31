@@ -79,7 +79,7 @@ function EntryForm({ entry, onSave, onCancel }) {
   const debouncedDraft = useDebounce(form, 500)
   const isDraftPending = JSON.stringify(form) !== JSON.stringify(debouncedDraft)
 
-  // Отложенное сохранение убирает лишние записи в хранилище при каждом нажатии клавиши.
+  
   useEffect(() => {
     if (entry) return
     const isEmpty =
