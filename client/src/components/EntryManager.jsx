@@ -24,7 +24,7 @@ function EntryManager() {
   useEffect(() => {
     // Сохраняем заголовок, чтобы вернуть его при смене количества записей и размонтировании.
     const previousTitle = document.title
-    document.title = `Дневник (${entries.length})`
+    document.title = `Мой дневник (${entries.length})`
     return () => {
       document.title = previousTitle
     }
@@ -52,7 +52,7 @@ function EntryManager() {
   }, [addEntry, editingId, updateEntry])
 
   const deleteEntry = useCallback((id) => {
-    if (!window.confirm('Удалить эту запись? Это действие нельзя отменить.')) return
+    if (!window.confirm('Вырвать эту страницу? Вернуть её не получится.')) return
     setEntries((previousEntries) =>
       previousEntries.filter((entry) => entry.id !== id),
     )
@@ -133,33 +133,23 @@ function EntryManager() {
   }, [entries])
 
   return (
-    <>
-      <section className="panel" aria-labelledby="form-heading">
-        <div className="section-heading">
-          <div>
-            <h2 id="form-heading">{editingEntry ? 'Редактировать запись' : 'Новая запись'}</h2>
-            <p>{editingEntry ? 'Измените запись и сохраните обновления.' : 'Добавьте сегодняшний момент в дневник.'}</p>
+    <div className="diary-layout">
+      <aside className="diary-sidebar" aria-label="Запись и инструменты дневника">
+        <section className="form-section" aria-labelledby="form-heading">
+          <div className="section-heading">
+            <h2 id="form-heading">{editingEntry ? 'Правка страницы' : 'Новая страница'}</h2>
           </div>
-          <button className="button button-secondary" type="button" onClick={resetDemo}>
-            Сбросить демо-данные
+          {/* key создаёт форму с актуальным начальным состоянием при переходе между режимами. */}
+          <EntryForm
+            key={editingId ?? 'new'}
+            entry={editingEntry}
+            onSave={saveEntry}
+            onCancel={cancelEdit}
+          />
+          <button className="text-button reset-button" type="button" onClick={resetDemo}>
+            Вернуть демо-страницы
           </button>
-        </div>
-        {/* key создаёт форму с актуальным начальным состоянием при переходе между режимами. */}
-        <EntryForm
-          key={editingId ?? 'new'}
-          entry={editingEntry}
-          onSave={saveEntry}
-          onCancel={cancelEdit}
-        />
-      </section>
-
-      <Stats stats={stats} />
-
-      <section aria-labelledby="entries-heading">
-        <div className="list-heading">
-          <h2 id="entries-heading">Записи</h2>
-          <span className="muted">{entries.length} всего</span>
-        </div>
+        </section>
         <Filters
           search={search}
           onSearchChange={setSearch}
@@ -168,21 +158,27 @@ function EntryManager() {
           sortBy={sortBy}
           onSortChange={setSortBy}
         />
-        <p className="counter-line">
-          <span>Найдено <strong>{visibleEntries.length}</strong> из <strong>{entries.length}</strong></span>
-        </p>
+        <Stats stats={stats} />
+      </aside>
 
+      <section className="diary-main" aria-labelledby="entries-heading">
+        <div className="list-heading">
+          <h2 id="entries-heading">Записи</h2>
+          <p className="counter-line">
+            Найдено <strong>{visibleEntries.length}</strong> из <strong>{entries.length}</strong>
+          </p>
+        </div>
         {isLoading ? (
-          <div className="loading-state" role="status">Загрузка записей...</div>
+          <div className="loading-state" role="status">Достаю тетрадь с полки…</div>
         ) : entries.length === 0 ? (
           <div className="empty-state">
-            <strong>Записей пока нет</strong>
-            Добавьте первую запись или восстановите демо-данные.
+            <strong>Страницы пока чистые.</strong>
+            Добавьте первую запись или верните демо-страницы.
           </div>
         ) : visibleEntries.length === 0 ? (
           <div className="empty-state">
-            <strong>Ничего не найдено по фильтрам</strong>
-            Попробуйте изменить поисковый запрос или фильтр приватности.
+            <strong>По таким словам ничего нет.</strong>
+            Попробуйте другой запрос или снимите часть фильтров.
           </div>
         ) : (
           <div className="entry-list">
@@ -190,6 +186,7 @@ function EntryManager() {
               <EntryItem
                 key={entry.id}
                 entry={entry}
+                search={search}
                 onEdit={startEdit}
                 onDelete={deleteEntry}
               />
@@ -197,7 +194,7 @@ function EntryManager() {
           </div>
         )}
       </section>
-    </>
+    </div>
   )
 }
 

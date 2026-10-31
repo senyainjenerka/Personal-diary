@@ -1,38 +1,30 @@
 const moodLabels = {
-  happy: 'Радостное',
-  calm: 'Спокойное',
-  neutral: 'Нейтральное',
-  focused: 'Сосредоточенное',
-  excited: 'Воодушевлённое',
-  tired: 'Усталое',
-  sad: 'Грустное',
+  happy: 'радостно',
+  calm: 'спокойно',
+  neutral: 'нейтрально',
+  focused: 'сосредоточенно',
+  excited: 'воодушевлённо',
+  tired: 'устало',
+  sad: 'грустно',
 }
 
 function Stats({ stats }) {
   const items = [
-    ['Всего записей', stats.total],
-    ['Приватных', stats.privateCount],
+    ['Записей', stats.total],
+    ['Из них личных', stats.privateCount],
     ['Публичных', stats.publicCount],
-    ['Частое настроение', moodLabels[stats.mostFrequentMood] ?? '—'],
-    ['Слов в дневнике', stats.wordCount],
+    ['Слов написано', stats.wordCount],
+    ['Чаще всего', moodLabels[stats.mostFrequentMood] ?? '—'],
   ]
 
   return (
-    <section className="panel" aria-labelledby="stats-heading">
-      <div className="section-heading">
-        <div>
-          <h2 id="stats-heading">Статистика</h2>
-          <p>Небольшой обзор вашего дневника.</p>
-        </div>
-      </div>
-      <div className="stats-grid">
+    <section className="stats-section" aria-labelledby="stats-heading">
+      <h2 id="stats-heading">На полях</h2>
+      <ul className="stats-list">
         {items.map(([label, value]) => (
-          <div className="stat-card" key={label}>
-            <span className="stat-value">{value}</span>
-            <span className="stat-label">{label}</span>
-          </div>
+          <li key={label}><span>{label}:</span> <strong>{value}</strong></li>
         ))}
-      </div>
+      </ul>
     </section>
   )
 }

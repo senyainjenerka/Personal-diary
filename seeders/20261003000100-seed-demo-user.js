@@ -18,7 +18,7 @@ module.exports = {
         }
       );
 
-      // Старые записи из лабораторной №2 закрепляются за демо-пользователем.
+      
       await queryInterface.bulkUpdate('Entries', { userId: users[0].id }, { id: [1, 2, 3, 4] }, { transaction });
     });
   },

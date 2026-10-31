@@ -5,12 +5,19 @@ function App() {
   return (
     <main className="app-shell">
       <header className="app-header">
-        <p className="eyebrow">Личное пространство</p>
-        <h1>Дневник</h1>
-        <p className="intro">Сохраняйте моменты, мысли и планы — только на этом устройстве.</p>
+        <div className="header-deco header-deco-leaf" aria-hidden="true">🌿</div>
+        <div className="header-deco header-deco-bloom" aria-hidden="true">✿</div>
+        <div className="header-title">
+          <p className="header-kicker">личный дневник</p>
+          <h1>Мой дневник</h1>
+          <p className="header-tagline">Тихие заметки о днях, настроении и мелочах</p>
+        </div>
       </header>
       <EntryManager />
-      <footer className="app-footer">Ваши записи хранятся локально в браузере.</footer>
+      <footer className="app-footer">
+        <span className="footer-flower" aria-hidden="true">❀</span>
+        Записи остаются только в этом браузере.
+      </footer>
     </main>
   )
 }
